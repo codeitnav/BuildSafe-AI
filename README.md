@@ -47,3 +47,43 @@ The goal is to **prevent software project failures early**, saving time, cost, a
 - Rule-based validation combined with AI outputs
 
 ---
+
+
+### Frontend (Next.js)
+- User authentication
+- Requirement upload and preview
+- Risk visualization dashboards
+- Detailed requirement-level analysis views
+
+### Backend (Express)
+- Authentication APIs
+- Project and requirement management
+- AI analysis orchestration
+- Risk calculation and storage
+
+---
+
+## 🔁 System Workflow
+
+1. User uploads or pastes requirement text
+2. Text is cleaned and normalized
+3. Requirements are split into individual units
+4. Rule-based validation is applied
+5. AI analyzes semantics and intent
+6. Risks are detected and scored
+7. Suggestions and rewrites are generated
+8. Results are stored and visualized
+
+---
+
+## ⚙️ Setup Instructions
+
+### Prerequisites
+- Node.js (v18 or above)
+- MongoDB (local or cloud)
+- npm
+
+### Clone the repository
+```bash
+git clone https://github.com/your-username/buildsafe-ai.git
+cd buildsafe-ai
