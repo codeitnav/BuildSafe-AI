@@ -1,17 +1,24 @@
 {
-  "name": "backend",
+  "name": "buildsafe-ai-backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "node src/server.js"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mammoth": "^1.11.0",
+    "mongoose": "^9.1.5",
+    "multer": "^2.0.2",
+    "openai": "^6.17.0",
+    "pdfjs-dist": "^5.4.530",
+    "pdfkit": "^0.17.2"
   }
 }

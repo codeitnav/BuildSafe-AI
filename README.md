@@ -10,7 +10,9 @@ The goal is to **prevent software project failures early**, saving time, cost, a
 ## 🚀 Features
 
 - Upload or paste software requirement text (formal or informal)
-- Automatic text cleaning and preprocessing
+- Upload requirement documents in PDF or DOC/DOCX format
+- Automatic text extraction from uploaded documents
+- Text cleaning and preprocessing
 - Intelligent splitting into individual requirements
 - AI-based understanding of each requirement
 - Detection of:
@@ -48,31 +50,40 @@ The goal is to **prevent software project failures early**, saving time, cost, a
 
 ---
 
+## 📄 Supported Input Formats and Processing
 
-### Frontend (Next.js)
-- User authentication
-- Requirement upload and preview
-- Risk visualization dashboards
-- Detailed requirement-level analysis views
+BuildSafe AI supports multiple input formats to make requirement analysis flexible and practical for real-world use.
 
-### Backend (Express)
-- Authentication APIs
-- Project and requirement management
-- AI analysis orchestration
-- Risk calculation and storage
+### Supported Input Types
+- **Plain Text**: Users can directly paste requirement text into the application.
+- **PDF Documents**: Upload software requirement specification files in PDF format.
+- **DOC / DOCX Documents**: Upload requirement documents created using word processors.
+
+### Input Processing Approach
+- Uploaded documents are **programmatically parsed** to extract readable plain text.
+- Headers, footers, page numbers, and formatting artifacts are removed during preprocessing.
+- All inputs, regardless of format, are converted into a **clean text representation** before analysis.
+
+### Important Clarification
+- **Generative AI does not read files directly**.
+- AI operates **only on extracted and cleaned plain text**.
+- File parsing and text extraction are **fully deterministic**, ensuring consistent and repeatable preprocessing results.
 
 ---
 
 ## 🔁 System Workflow
 
-1. User uploads or pastes requirement text
-2. Text is cleaned and normalized
-3. Requirements are split into individual units
-4. Rule-based validation is applied
-5. AI analyzes semantics and intent
-6. Risks are detected and scored
-7. Suggestions and rewrites are generated
-8. Results are stored and visualized
+The system follows a structured pipeline to ensure accurate and explainable analysis:
+
+1. User uploads or pastes requirement text  
+2. If a file is uploaded, text is deterministically extracted from the document  
+3. Extracted text is cleaned and normalized  
+4. Requirements are split into individual units  
+5. Rule-based validation is applied to detect basic issues  
+6. AI analyzes semantics and intent of each requirement  
+7. Risks are detected and scored at both requirement and project level  
+8. AI generates explanations and clearer rewritten requirements  
+9. Results are stored and visualized in the dashboard  
 
 ---
 
@@ -87,3 +98,4 @@ The goal is to **prevent software project failures early**, saving time, cost, a
 ```bash
 git clone https://github.com/your-username/buildsafe-ai.git
 cd buildsafe-ai
+```
