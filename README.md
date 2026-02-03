@@ -1,31 +1,34 @@
 # BuildSafe AI
 
-BuildSafe AI is a web-based system that helps software teams identify risks in software requirement documents **before development begins**.  
-It analyzes informal or incomplete requirements using Generative AI and software engineering principles to detect ambiguity, missing details, unrealistic expectations, and hidden dependencies.
+**BuildSafe AI** is an intelligent, web-based system designed to identify **risks in software requirement documents before development begins**.  
+It helps software teams, students, and researchers detect ambiguity, missing details, unrealistic expectations, and hidden dependencies in requirements using a combination of **software engineering rules** and **Generative AI**.
 
-The goal is to **prevent software project failures early**, saving time, cost, and effort.
+The primary objective is to **reduce software project failures early in the lifecycle**, saving time, cost, and development effort.
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-- Upload or paste software requirement text (formal or informal)
-- Upload requirement documents in PDF or DOC/DOCX format
-- Automatic text extraction from uploaded documents
-- Text cleaning and preprocessing
+- Upload or paste software requirements (formal or informal)
+- Support for **PDF**, **DOC**, and **DOCX** requirement documents
+- Deterministic text extraction from uploaded files
+- Automatic text cleaning and normalization
 - Intelligent splitting into individual requirements
-- AI-based understanding of each requirement
-- Detection of:
-  - Ambiguous or unclear wording
-  - Missing or incomplete details
-  - Unrealistic or infeasible expectations
-  - Hidden dependencies between requirements
-- Risk scoring:
-  - Per-requirement risk level
-  - Overall project risk level
-- Simple explanations of detected issues
-- AI-generated rewritten requirements that are clearer and developer-friendly
-- Dashboard to view past analyses and risk summaries
+- Rule-based requirement validation
+- AI-powered semantic analysis of each requirement
+- Detection of common requirement issues:
+  - Ambiguity and vague wording
+  - Missing actors, actions, or constraints
+  - Non-testable or unverifiable statements
+  - Unrealistic performance or scalability expectations
+- **Risk scoring**:
+  - Per-requirement risk (Low / Medium / High)
+  - Overall project-level risk
+- Clear, human-readable explanations for detected risks
+- AI-generated **improved rewrites** of problematic requirements
+- Persistent storage of analysis history (MongoDB)
+- Export complete analysis reports as **PDF**
+- History dashboard to view and revisit past analyses
 
 ---
 
@@ -40,50 +43,93 @@ The goal is to **prevent software project failures early**, saving time, cost, a
 ### Backend
 - Node.js
 - Express.js
-- MongoDB (Mongoose)
-- JWT Authentication
+- MongoDB with Mongoose
+- RESTful API architecture
 
-### AI Layer
-- Generative AI (LLM-based analysis)
-- Prompt-based reasoning
-- Rule-based validation combined with AI outputs
+### AI & Analysis Layer
+- Large Language Model (LLM) based semantic analysis
+- Prompt-engineered reasoning
+- Rule-based validation (software engineering principles)
+- Hybrid risk scoring (rule-based + AI-based)
 
 ---
 
-## 📄 Supported Input Formats and Processing
+## 📄 Supported Input Formats & Processing
 
-BuildSafe AI supports multiple input formats to make requirement analysis flexible and practical for real-world use.
+BuildSafe AI is designed for real-world requirement documents and supports multiple input formats.
 
 ### Supported Input Types
-- **Plain Text**: Users can directly paste requirement text into the application.
-- **PDF Documents**: Upload software requirement specification files in PDF format.
-- **DOC / DOCX Documents**: Upload requirement documents created using word processors.
+- **Plain Text**: Paste raw requirement text directly.
+- **PDF Documents**: Upload Software Requirement Specification (SRS) PDFs.
+- **DOC / DOCX Documents**: Upload Word-based requirement documents.
 
-### Input Processing Approach
-- Uploaded documents are **programmatically parsed** to extract readable plain text.
-- Headers, footers, page numbers, and formatting artifacts are removed during preprocessing.
-- All inputs, regardless of format, are converted into a **clean text representation** before analysis.
+### Input Processing Pipeline
+- Uploaded files are **programmatically parsed** to extract plain text.
+- Noise such as headers, footers, page numbers, and formatting artifacts is removed.
+- All inputs are normalized into a **clean, consistent text format** before analysis.
 
 ### Important Clarification
-- **Generative AI does not read files directly**.
-- AI operates **only on extracted and cleaned plain text**.
-- File parsing and text extraction are **fully deterministic**, ensuring consistent and repeatable preprocessing results.
+- Generative AI **does not read files directly**.
+- AI operates **only on extracted plain text**.
+- File parsing and text extraction are **deterministic**, ensuring repeatability and transparency.
 
 ---
 
 ## 🔁 System Workflow
 
-The system follows a structured pipeline to ensure accurate and explainable analysis:
+The system follows a clear, explainable pipeline:
 
-1. User uploads or pastes requirement text  
-2. If a file is uploaded, text is deterministically extracted from the document  
+1. User uploads a document or pastes requirement text  
+2. Text is deterministically extracted (if a file is uploaded)  
 3. Extracted text is cleaned and normalized  
-4. Requirements are split into individual units  
-5. Rule-based validation is applied to detect basic issues  
-6. AI analyzes semantics and intent of each requirement  
-7. Risks are detected and scored at both requirement and project level  
-8. AI generates explanations and clearer rewritten requirements  
-9. Results are stored and visualized in the dashboard  
+4. Content is split into individual requirements  
+5. Rule-based validation detects structural issues  
+6. AI analyzes semantic meaning and intent  
+7. Requirement-level risk is calculated  
+8. Project-level risk is aggregated  
+9. AI generates explanations and rewritten requirements  
+10. Analysis results are stored in MongoDB  
+11. User can view history or export results as a PDF report  
+
+---
+
+## 📊 Risk Scoring Model
+
+Each requirement is evaluated using a hybrid approach:
+
+### Rule-Based Risk
+- Ambiguity
+- Missing action or actor
+- Missing constraints
+- Non-testable statements
+
+### AI-Based Risk
+- Semantic clarity
+- Feasibility
+- Completeness
+- Estimability
+
+### Final Risk Levels
+- **Low Risk**: Clear, testable, and complete
+- **Medium Risk**: Needs clarification or refinement
+- **High Risk**: Likely to cause implementation failure
+
+Project risk is computed by aggregating individual requirement risks.
+
+---
+
+## 🗄️ Persistence & Reporting
+
+- All analyses are stored in **MongoDB**
+- Each analysis includes:
+  - Source file name
+  - Timestamp
+  - Requirement-level results
+  - Project risk summary
+- Users can:
+  - View past analyses
+  - Retrieve a single analysis by ID
+  - Export a complete **PDF report**
 
 ---
 
@@ -94,8 +140,40 @@ The system follows a structured pipeline to ensure accurate and explainable anal
 - MongoDB (local or cloud)
 - npm
 
-### Clone the repository
+### Clone the Repository
 ```bash
 git clone https://github.com/your-username/buildsafe-ai.git
 cd buildsafe-ai
 ```
+
+### Backend Setup
+```bash
+cd backend
+npm install
+```
+
+Create a .env file:
+```bash
+PORT=8000
+MONGO_URI=your_mongodb_connection_string
+```
+Start the backend server:
+```bash
+npm start
+```
+### Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## 🎯 Intended Use Cases
+- Software engineering students (SRS analysis & viva preparation)
+- Early-stage project planning
+- Requirement quality audits
+- Academic research in software engineering & AI
+- Teams practicing requirement-driven development
+
+## 📜 License
+This project is licensed under the MIT License.
