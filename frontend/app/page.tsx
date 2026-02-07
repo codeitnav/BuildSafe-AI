@@ -1,6 +1,10 @@
 "use client"
 import { useEffect, useState } from "react";
 import { checkBackend } from "../lib/api";
+import SketchBox from "@/components/ui/SketchBox";
+import Navbar from '@/components/layout/Navbar';
+import HeroSection from '@/components/home/HeroSection';
+import WhyBuildSafe from "@/components/home/WhyBuildSafe";
 
 export default function Home() {
   const [status, setStatus] = useState("");
@@ -10,9 +14,10 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="p-8">
-      <h1 className="text-2xl font-bold">BuildSafe AI</h1>
-      <p className="mt-4">Backend status: {status}</p>
+    <main className="min-h-screen bg-background text-foreground selection:bg-black selection:text-[#ffffe7]">
+      <Navbar />
+      <HeroSection />
+      <WhyBuildSafe />
     </main>
   );
 }
