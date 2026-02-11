@@ -1,37 +1,42 @@
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
+
 export default function HeroSection() {
   return (
-    <section className="relative m-2 md:m-4 mt-20  flex h-[calc(100vh-5rem)] w-auto flex-col border-6 border-t-0 border-l-0 border-r-0 border-foreground p-6 md:p-12">
-      
-      {/* 1. Custom Left Border: Stops at the inner bottom line */}
-      <div className="absolute right-0 top-[-5rem] md:top-0 bottom-3 md:bottom-6 border-l-6 border-foreground" />
-      <div className="relative flex flex-1 flex-col justify-between">
-        <h1 className="max-w-5xl text-7xl leading-[0.9] tracking-tighter sm:text-8xl md:text-9xl lg:text-[11rem]">
-          BUILDSAFE-AI
-        </h1>
+    <section className="border-b-[3px] border-foreground">
+      <div className="container mx-auto px-6 py-20 md:py-32">
+        <div className="max-w-4xl">
+          <div className="mb-6 inline-block border-brutal bg-risk-high px-3 py-1">
+            <span className="font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground">
+              Risk Detection Engine
+            </span>
+          </div>
 
-        <div className="flex justify-end">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="square"
-            strokeLinejoin="miter"
-            className="h-16 w-16 md:h-24 md:w-24"
+          <h1 className="mb-6 text-5xl font-black uppercase leading-[0.95] tracking-tight md:text-7xl lg:text-8xl">
+            Stop Building
+            <br />
+            Broken
+            <br />
+            Software.
+          </h1>
+
+          <p className="mb-10 max-w-xl text-lg font-medium leading-relaxed text-muted-foreground md:text-xl">
+            AI-powered risk detection for requirement documents. Catch ambiguities,
+            gaps, and contradictions before a single line of code is written.
+          </p>
+
+          <Link
+            href="/analysis"
+            className="group inline-flex items-center gap-3 border-brutal-thick bg-primary px-8 py-5 text-lg font-black uppercase tracking-wider text-primary-foreground shadow-brutal-lg transition-all hover:shadow-brutal-hover hover:translate-x-[6px] hover:translate-y-[6px]"
           >
-            <path d="M6 7L12 13" />
-            <path d="M18 7L12 13" />
-            <path d="M6 11L12 17" />
-            <path d="M18 11L12 17" />
-          </svg>
+            Start Analysis
+            <ArrowRight
+              className="h-5 w-5 transition-transform group-hover:translate-x-1"
+              strokeWidth={3}
+            />
+          </Link>
         </div>
       </div>
-
-      {/* 2. Inner Bottom Border */}
-      <div className="absolute left-0 right-0 bottom-3 md:bottom-6 border-t-6 border-foreground" />
-      
-      {/* 3. Right Border Segment */}
-      <div className="absolute left-0 bottom-0 h-3 md:h-6 border-r-6 border-foreground" />
     </section>
-  );
+  )
 }

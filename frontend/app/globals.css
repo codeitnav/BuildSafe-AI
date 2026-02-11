@@ -1,18 +1,168 @@
 @import "tailwindcss";
 
+/* Google Fonts */
+
+/* ============================= */
+/* DESIGN TOKENS */
+/* ============================= */
+
 :root {
-  --background: #ffffe7;
-  --foreground: #171717;
+  /* Base Colors */
+  --background: 60 100% 95%;
+  --foreground: 0 0% 9%;
+
+  --primary: 0 0% 9%;
+  --primary-foreground: 60 100% 95%;
+
+  --secondary: 60 30% 88%;
+  --secondary-foreground: 0 0% 9%;
+
+  --muted: 60 30% 90%;
+  --muted-foreground: 0 0% 35%;
+
+  --accent: 60 30% 85%;
+  --accent-foreground: 0 0% 9%;
+
+  /* Risk Colors */
+  --risk-high: 0 100% 63%;
+  --risk-medium: 48 100% 50%;
+  --risk-low: 122 39% 49%;
+
+  /* Brutalist Shadows */
+  --shadow-brutal: 4px 4px 0px hsl(0 0% 9%);
+  --shadow-brutal-sm: 2px 2px 0px hsl(0 0% 9%);
+  --shadow-brutal-lg: 6px 6px 0px hsl(0 0% 9%);
+  --shadow-brutal-hover: 0px 0px 0px hsl(0 0% 9%);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-fredoka);
-}
+/* ============================= */
+/* BASE STYLES */
+/* ============================= */
 
 body {
-  background-color: #ffffe7;
-  color: #171717;
-  font-family: var(--font-fredoka), sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 900;
+}
+
+/* Root container like Vite */
+#__next {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ============================= */
+/* BRUTAL UTILITIES */
+/* ============================= */
+
+.shadow-brutal {
+  box-shadow: var(--shadow-brutal);
+}
+
+.shadow-brutal-sm {
+  box-shadow: var(--shadow-brutal-sm);
+}
+
+.shadow-brutal-lg {
+  box-shadow: var(--shadow-brutal-lg);
+}
+
+.shadow-brutal-hover {
+  box-shadow: var(--shadow-brutal-hover);
+}
+
+.border-brutal {
+  border: 2px solid hsl(var(--foreground));
+}
+
+.border-brutal-thick {
+  border: 3px solid hsl(var(--foreground));
+}
+
+/* ============================= */
+/* COLOR UTILITIES */
+/* ============================= */
+
+.bg-primary {
+  background: hsl(var(--primary));
+}
+
+.bg-risk-high {
+  background: hsl(var(--risk-high));
+}
+
+.bg-risk-medium {
+  background: hsl(var(--risk-medium));
+}
+
+.bg-risk-low {
+  background: hsl(var(--risk-low));
+}
+
+.text-primary-foreground {
+  color: hsl(var(--primary-foreground));
+}
+
+.text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+
+/* ============================= */
+/* ANIMATIONS */
+/* ============================= */
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+@keyframes terminal-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-terminal-cursor {
+  animation: terminal-blink 1s step-end infinite;
+}
+
+/* ============================= */
+/* OLD LOGO STYLES (Optional) */
+/* ============================= */
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
 }

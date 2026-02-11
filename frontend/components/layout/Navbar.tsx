@@ -1,36 +1,40 @@
-import Link from "next/link";
+import Link from "next/link"
+import { Shield } from "lucide-react"
 
 export default function Navbar() {
   return (
-    <nav className="fixed top-2 md:top-4 left-2 right-2 md:left-4 md:right-4 z-50 flex items-center justify-end border-6 border-r-0 border-foreground bg-background px-6 md:px-12 py-1 text-2xl uppercase font-medium">
-      <div className="flex gap-6">
-        {["About", "Contact"].map((item) => (
+    <nav className="fixed top-0 left-0 w-full z-50 border-b-[3px] border-foreground bg-[hsl(var(--background))]">
+      <div className="container mx-auto flex items-center justify-between px-6 py-4">
+        <Link href="/" className="flex items-center gap-2">
+          <Shield className="h-7 w-7" strokeWidth={2.5} />
+          <span className="text-xl font-black tracking-tight">
+            BUILDSAFE AI
+          </span>
+        </Link>
+
+        <div className="flex items-center gap-6">
           <Link
-            key={item}
-            href={`/${item.toLowerCase()}`}
-            className="group relative inline-block"
+            href="/analysis"
+            className="text-sm font-bold uppercase tracking-wider hover:line-through"
           >
-            <span className="relative z-10">{item}</span>
-            <span
-              className="
-                pointer-events-none
-                absolute
-                left-0
-                top-1/2
-                h-[2px]
-                w-full
-                origin-left
-                scale-x-0
-                bg-foreground
-                transition-transform
-                duration-300
-                ease-out
-                group-hover:scale-x-100
-              "
-            />
+            Analyze
           </Link>
-        ))}
+
+          <Link
+            href="/dashboard"
+            className="text-sm font-bold uppercase tracking-wider hover:line-through"
+          >
+            Dashboard
+          </Link>
+
+          <Link
+            href="/analysis"
+            className="border-brutal bg-primary px-4 py-2 text-sm font-bold uppercase tracking-wider text-primary-foreground shadow-brutal transition-all hover:shadow-brutal-hover hover:translate-x-[4px] hover:translate-y-[4px]"
+          >
+            Get Started
+          </Link>
+        </div>
       </div>
     </nav>
-  );
+  )
 }
