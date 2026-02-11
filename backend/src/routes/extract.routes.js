@@ -31,15 +31,51 @@ router.post("/extract", upload.single("file"), async (req, res) => {
             });
         }
 
+        const { ownerType, ownerId } = req.body;
+
+        // Validate ownership
+        if (!ownerType || !ownerId) {
+            if (req.file?.path) fs.unlinkSync(req.file.path);
+
+            return res.status(400).json({
+                success: false,
+                message: "ownerType and ownerId are required"
+            });
+        }
+
+        if (!["anonymous", "user"].includes(ownerType)) {
+            if (req.file?.path) fs.unlinkSync(req.file.path);
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid ownerType"
+            });
+        }
+
+        // 1. Extract
         const rawText = await extractTextFromFile(req.file);
+
+        // 2. Clean
         const cleanedText = cleanText(rawText);
 
+        // 3. Split
         const requirements = splitRequirements(cleanedText);
 
+        if (!requirements.length) {
+            fs.unlinkSync(req.file.path);
+
+            return res.status(400).json({
+                success: false,
+                message: "No valid requirements detected in document"
+            });
+        }
+
+        // 4. Rule validation
         const validatedRequirements = requirements.map(validateRequirement);
 
         const results = [];
 
+        // 5. AI + Risk calculation
         for (const item of validatedRequirements) {
             const aiAnalysis = await analyzeRequirementWithAI(
                 item.requirement,
@@ -56,26 +92,36 @@ router.post("/extract", upload.single("file"), async (req, res) => {
             });
         }
 
-        const projectRisk = calculateProjectRisk(
-            results.map(r => r.risk)
-        );
+        // 6. Project aggregation (safe against zero division)
+        const projectRisk =
+            results.length === 0
+                ? {
+                      totalRequirements: 0,
+                      highRiskCount: 0,
+                      mediumRiskCount: 0,
+                      projectRisk: "Low"
+                  }
+                : calculateProjectRisk(results.map(r => r.risk));
 
+        // 7. Store in DB with ownership
         const analysis = await Analysis.create({
+            ownerType,
+            ownerId,
             sourceFileName: req.file.originalname,
             totalRequirements: results.length,
             projectRisk,
             results
         });
 
-
+        // 8. Delete uploaded file
         fs.unlinkSync(req.file.path);
 
+        // 9. Return response
         return res.status(200).json({
             success: true,
             analysisId: analysis._id,
             projectRisk,
-            totalRequirements: results.length,
-            results
+            totalRequirements: results.length
         });
 
     } catch (error) {
@@ -87,7 +133,7 @@ router.post("/extract", upload.single("file"), async (req, res) => {
 
         return res.status(500).json({
             success: false,
-            message: error.message
+            message: error.message || "Internal Server Error"
         });
     }
 });

@@ -4,17 +4,11 @@ import {
     ACTION_VERBS
 } from "./validationRules.js";
 
-/*
-  @desc    Apply rule-based validation on a single requirement
-  @params  requirement {string}
-  @returns {Object} validation result
-*/
 export const validateRequirement = (requirement) => {
     const issues = [];
 
     const lower = requirement.toLowerCase();
 
-    // Ambiguity check
     const ambiguousHits = AMBIGUOUS_TERMS.filter(term =>
         lower.includes(term)
     );
@@ -25,7 +19,6 @@ export const validateRequirement = (requirement) => {
         });
     }
 
-    // Non-testable language
     const nonTestableHits = NON_TESTABLE_TERMS.filter(term =>
         lower.includes(term)
     );
@@ -36,7 +29,6 @@ export const validateRequirement = (requirement) => {
         });
     }
 
-    // Actor check
     if (!/user|system|admin|application|server/i.test(requirement)) {
         issues.push({
             type: "MissingActor",

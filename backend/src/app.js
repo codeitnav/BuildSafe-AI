@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 
-import uploadRoutes from "./routes/upload.routes.js";
+import authRoutes from "./routes/auth.routes.js";
 import extractRoutes from "./routes/extract.routes.js";
 import analysisRoutes from "./routes/analysis.routes.js";
 
@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/api", uploadRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api", extractRoutes);
 app.use("/api/analysis", analysisRoutes);
 

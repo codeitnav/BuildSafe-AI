@@ -11,13 +11,26 @@ const RequirementSchema = new mongoose.Schema(
 );
 
 const AnalysisSchema = new mongoose.Schema(
-    {
-        sourceFileName: String,
-        totalRequirements: Number,
-        projectRisk: Object,
-        results: [RequirementSchema]
+{
+    ownerType: {
+        type: String,
+        enum: ["anonymous", "user"],
+        required: true
     },
-    { timestamps: true }
+
+    ownerId: {
+        type: String,
+        required: true,
+        index: true
+    },
+
+    sourceFileName: String,
+    totalRequirements: Number,
+    projectRisk: Object,
+    results: [RequirementSchema]
+},
+{ timestamps: true }
 );
+
 
 export default mongoose.model("Analysis", AnalysisSchema);

@@ -5,37 +5,60 @@ import { generateAnalysisPDF } from "../utils/pdfGenerator.js";
 const router = express.Router();
 
 /*
-  @desc    Get all past analyses (history)
-  @route   GET /api/analysis
+  @desc    Get all past analyses (filtered by owner)
+  @route   GET /api/analysis?ownerId=xxx
   @access  Public
 */
 router.get("/", async (req, res) => {
     try {
-        const analyses = await Analysis.find()
+        const { ownerId } = req.query;
+
+        if (!ownerId) {
+            return res.status(400).json({
+                success: false,
+                message: "ownerId is required"
+            });
+        }
+
+        const analyses = await Analysis.find({ ownerId })
             .sort({ createdAt: -1 })
             .select("sourceFileName projectRisk totalRequirements createdAt");
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             count: analyses.length,
             analyses
         });
+
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
-            message: error.message
+            message: error.message || "Internal Server Error"
         });
     }
 });
 
+
 /*
-  @desc    Get a single analysis by ID
-  @route   GET /api/analysis/:id
+  @desc    Get a single analysis by ID (ownership enforced)
+  @route   GET /api/analysis/:id?ownerId=xxx
   @access  Public
 */
 router.get("/:id", async (req, res) => {
     try {
-        const analysis = await Analysis.findById(req.params.id);
+        const { ownerId } = req.query;
+
+        if (!ownerId) {
+            return res.status(400).json({
+                success: false,
+                message: "ownerId is required"
+            });
+        }
+
+        const analysis = await Analysis.findOne({
+            _id: req.params.id,
+            ownerId
+        });
 
         if (!analysis) {
             return res.status(404).json({
@@ -44,26 +67,40 @@ router.get("/:id", async (req, res) => {
             });
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             analysis
         });
+
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
-            message: error.message
+            message: error.message || "Internal Server Error"
         });
     }
 });
 
+
 /*
-  @desc    Export analysis report as PDF
-  @route   GET /api/analysis/:id/export/pdf
+  @desc    Export analysis report as PDF (ownership enforced)
+  @route   GET /api/analysis/:id/export/pdf?ownerId=xxx
   @access  Public
 */
 router.get("/:id/export/pdf", async (req, res) => {
     try {
-        const analysis = await Analysis.findById(req.params.id);
+        const { ownerId } = req.query;
+
+        if (!ownerId) {
+            return res.status(400).json({
+                success: false,
+                message: "ownerId is required"
+            });
+        }
+
+        const analysis = await Analysis.findOne({
+            _id: req.params.id,
+            ownerId
+        });
 
         if (!analysis) {
             return res.status(404).json({
@@ -80,11 +117,12 @@ router.get("/:id/export/pdf", async (req, res) => {
             `attachment; filename=BuildSafe_Report_${analysis._id}.pdf`
         );
 
-        res.send(pdfBuffer);
+        return res.send(pdfBuffer);
+
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
-            message: error.message
+            message: error.message || "Internal Server Error"
         });
     }
 });
