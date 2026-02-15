@@ -50,11 +50,6 @@ npm install
 npm run dev
 ```
 
-The app will run at:
-```bash
-http://localhost:3000
-```
-
 ### Environment Variables
 Create a .env.local file in the root directory and configure:
 ```bash
