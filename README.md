@@ -48,7 +48,6 @@ The primary objective is to **reduce software project failures early in the life
 
 ### AI & Analysis Layer
 - Large Language Model (LLM) based semantic analysis
-- Prompt-engineered reasoning
 - Rule-based validation (software engineering principles)
 - Hybrid risk scoring (rule-based + AI-based)
 
