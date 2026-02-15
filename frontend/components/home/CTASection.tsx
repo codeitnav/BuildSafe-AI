@@ -13,7 +13,6 @@ const marqueeItems = [
 export default function CTASection() {
   return (
     <section>
-      {/* Marquee */}
       <div className="overflow-hidden border-b-[3px] border-foreground bg-primary py-3">
         <div className="animate-marquee flex whitespace-nowrap">
           {[...marqueeItems, ...marqueeItems].map((item, i) => (
@@ -27,7 +26,6 @@ export default function CTASection() {
         </div>
       </div>
 
-      {/* CTA Block */}
       <div className="container mx-auto px-6 py-20 text-center">
         <h2 className="mb-4 text-4xl font-black uppercase tracking-tight md:text-5xl">
           Ready to Ship

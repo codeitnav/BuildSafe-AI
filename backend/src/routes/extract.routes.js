@@ -8,15 +8,17 @@ import { validateRequirement } from "../utils/requirementValidator.js";
 import { analyzeRequirementWithAI } from "../ai/aiService.js";
 import llmClient from "../config/llmClient.js";
 import Analysis from "../models/Analysis.js";
+import { expandIdeaWithAI } from "../ai/aiService.js";
 
 import { calculateRequirementRisk } from "../risk/calculateRequirementRisk.js";
 import { calculateProjectRisk } from "../risk/calculateProjectRisk.js";
+
 
 const router = express.Router();
 
 /*
   @desc    Full pipeline:
-           upload → extract → clean → split
+           upload OR text → clean → split
            → rule validation → AI analysis
            → risk scoring → project aggregation
   @route   POST /api/extract
@@ -24,58 +26,52 @@ const router = express.Router();
 */
 router.post("/extract", upload.single("file"), async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({
-                success: false,
-                message: "No file uploaded"
-            });
-        }
+        const { ownerType, ownerId, text } = req.body;
 
-        const { ownerType, ownerId } = req.body;
-
-        // Validate ownership
         if (!ownerType || !ownerId) {
-            if (req.file?.path) fs.unlinkSync(req.file.path);
-
             return res.status(400).json({
                 success: false,
                 message: "ownerType and ownerId are required"
             });
         }
 
-        if (!["anonymous", "user"].includes(ownerType)) {
-            if (req.file?.path) fs.unlinkSync(req.file.path);
+        let rawText = "";
 
+        // Case 1: File Upload
+        if (req.file) {
+            rawText = await extractTextFromFile(req.file);
+        }
+
+        // Case 2: Pasted Text
+        else if (text && text.trim().length > 0) {
+            rawText = text;
+        }
+
+        else {
             return res.status(400).json({
                 success: false,
-                message: "Invalid ownerType"
+                message: "Either file or text input is required"
             });
         }
 
-        // 1. Extract
-        const rawText = await extractTextFromFile(req.file);
-
-        // 2. Clean
         const cleanedText = cleanText(rawText);
+        let requirements = splitRequirements(cleanedText);
+        if (requirements.length <= 3) {
+            const suggestion = await expandIdeaWithAI(cleanedText, llmClient);
 
-        // 3. Split
-        const requirements = splitRequirements(cleanedText);
-
-        if (!requirements.length) {
-            fs.unlinkSync(req.file.path);
-
-            return res.status(400).json({
-                success: false,
-                message: "No valid requirements detected in document"
+            return res.status(200).json({
+                success: true,
+                mode: "IDEA_LEVEL_INPUT",
+                detectedCount: requirements.length,
+                suggestion
             });
         }
 
-        // 4. Rule validation
+
         const validatedRequirements = requirements.map(validateRequirement);
 
         const results = [];
 
-        // 5. AI + Risk calculation
         for (const item of validatedRequirements) {
             const aiAnalysis = await analyzeRequirementWithAI(
                 item.requirement,
@@ -92,50 +88,39 @@ router.post("/extract", upload.single("file"), async (req, res) => {
             });
         }
 
-        // 6. Project aggregation (safe against zero division)
-        const projectRisk =
-            results.length === 0
-                ? {
-                      totalRequirements: 0,
-                      highRiskCount: 0,
-                      mediumRiskCount: 0,
-                      projectRisk: "Low"
-                  }
-                : calculateProjectRisk(results.map(r => r.risk));
+        const projectRisk = calculateProjectRisk(
+            results.map(r => r.risk)
+        );
 
-        // 7. Store in DB with ownership
         const analysis = await Analysis.create({
             ownerType,
             ownerId,
-            sourceFileName: req.file.originalname,
+            sourceFileName: req.file ? req.file.originalname : "Typed Input",
             totalRequirements: results.length,
             projectRisk,
             results
         });
 
-        // 8. Delete uploaded file
-        fs.unlinkSync(req.file.path);
+        if (req.file?.path) {
+            fs.unlinkSync(req.file.path);
+        }
 
-        // 9. Return response
         return res.status(200).json({
             success: true,
-            analysisId: analysis._id,
-            projectRisk,
-            totalRequirements: results.length
+            analysisId: analysis._id
         });
 
     } catch (error) {
         if (req.file?.path) {
-            try {
-                fs.unlinkSync(req.file.path);
-            } catch (_) {}
+            try { fs.unlinkSync(req.file.path); } catch (_) {}
         }
 
         return res.status(500).json({
             success: false,
-            message: error.message || "Internal Server Error"
+            message: error.message
         });
     }
 });
+
 
 export default router;

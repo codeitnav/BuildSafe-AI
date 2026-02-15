@@ -23,7 +23,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${montserrat.variable} antialiased`}>
         <Providers>
-          {/* Prevent content hiding under fixed navbar */}
           <div className="pt-20">
             {children}
           </div>

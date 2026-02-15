@@ -53,9 +53,11 @@ export const registerUser = async (req, res) => {
         });
 
     } catch (error) {
+        console.error("REGISTER ERROR:", error);
         res.status(500).json({
             success: false,
-            message: error.message
+            message: error.message,
+            stack: error.stack
         });
     }
 };
@@ -74,7 +76,7 @@ export const loginUser = async (req, res) => {
         if (!user || user.provider !== "local") {
             return res.status(400).json({
                 success: false,
-                message: "Invalid credentials"
+                message: "Username or password is wrong"
             });
         }
 
@@ -83,7 +85,7 @@ export const loginUser = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid credentials"
+                message: "Username or password is wrong"
             });
         }
 
@@ -114,9 +116,11 @@ export const loginUser = async (req, res) => {
         });
 
     } catch (error) {
+        console.log("Login Error", error)
         res.status(500).json({
             success: false,
-            message: error.message
+            message: error.message,
+            stack: error.stack
         });
     }
 };

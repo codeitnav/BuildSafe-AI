@@ -1,5 +1,6 @@
 import { groqLimiter } from "../config/groqLimiter.js";
 import { buildRequirementPrompt } from "./prompts/requirementAnalysis.prompt.js";
+import { buildIdeaExpansionPrompt } from "./prompts/ideaExpansion.prompt.js";
 
 /*
   @desc    Perform AI-based semantic analysis on a requirement
@@ -50,4 +51,15 @@ export const analyzeRequirementWithAI = async (
             missingDetails: []
         };
     }
+};
+
+export const expandIdeaWithAI = async (text, llmClient) => {
+    const prompt = buildIdeaExpansionPrompt(text);
+
+    const response = await llmClient.chat.completions.create({
+        model: "llama-3.3-70b-versatile",
+        messages: [{ role: "user", content: prompt }]
+    });
+
+    return response.choices[0].message.content;
 };

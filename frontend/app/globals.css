@@ -1,13 +1,6 @@
 @import "tailwindcss";
 
-/* Google Fonts */
-
-/* ============================= */
-/* DESIGN TOKENS */
-/* ============================= */
-
 :root {
-  /* Base Colors */
   --background: 60 100% 95%;
   --foreground: 0 0% 9%;
 
@@ -23,21 +16,15 @@
   --accent: 60 30% 85%;
   --accent-foreground: 0 0% 9%;
 
-  /* Risk Colors */
   --risk-high: 0 100% 63%;
   --risk-medium: 48 100% 50%;
   --risk-low: 122 39% 49%;
 
-  /* Brutalist Shadows */
   --shadow-brutal: 4px 4px 0px hsl(0 0% 9%);
   --shadow-brutal-sm: 2px 2px 0px hsl(0 0% 9%);
   --shadow-brutal-lg: 6px 6px 0px hsl(0 0% 9%);
   --shadow-brutal-hover: 0px 0px 0px hsl(0 0% 9%);
 }
-
-/* ============================= */
-/* BASE STYLES */
-/* ============================= */
 
 body {
   background: hsl(var(--background));
@@ -49,15 +36,10 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 900;
 }
 
-/* Root container like Vite */
 #__next {
   max-width: 1280px;
   margin: 0 auto;
 }
-
-/* ============================= */
-/* BRUTAL UTILITIES */
-/* ============================= */
 
 .shadow-brutal {
   box-shadow: var(--shadow-brutal);
@@ -83,10 +65,6 @@ h1, h2, h3, h4, h5, h6 {
   border: 3px solid hsl(var(--foreground));
 }
 
-/* ============================= */
-/* COLOR UTILITIES */
-/* ============================= */
-
 .bg-primary {
   background: hsl(var(--primary));
 }
@@ -110,10 +88,6 @@ h1, h2, h3, h4, h5, h6 {
 .text-muted-foreground {
   color: hsl(var(--muted-foreground));
 }
-
-/* ============================= */
-/* ANIMATIONS */
-/* ============================= */
 
 @keyframes marquee {
   0% {
@@ -140,10 +114,6 @@ h1, h2, h3, h4, h5, h6 {
 .animate-terminal-cursor {
   animation: terminal-blink 1s step-end infinite;
 }
-
-/* ============================= */
-/* OLD LOGO STYLES (Optional) */
-/* ============================= */
 
 .logo {
   height: 6em;
