@@ -117,21 +117,6 @@ Project risk is computed by aggregating individual requirement risks.
 
 ---
 
-## 🗄️ Persistence & Reporting
-
-- All analyses are stored in **MongoDB**
-- Each analysis includes:
-  - Source file name
-  - Timestamp
-  - Requirement-level results
-  - Project risk summary
-- Users can:
-  - View past analyses
-  - Retrieve a single analysis by ID
-  - Export a complete **PDF report**
-
----
-
 ## ⚙️ Setup Instructions
 
 ### Prerequisites
