@@ -12,7 +12,6 @@ export default function LoginPage() {
   const router = useRouter()
 
   const [loading, setLoading] = useState(false)
-  const [googleLoading, setGoogleLoading] = useState(false)
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -36,35 +35,10 @@ export default function LoginPage() {
     toast.success("Logged in successfully")
     router.push("/")
 
-  } catch (error: any) {
-    toast.error(error.message || "Username or password is wrong")
-  } finally {
-    setLoading(false)
-  }
-}
-
-  async function handleGoogleAuth() {
-    setGoogleLoading(true)
-
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      })
-
-      const data = await res.json()
-
-      if (data.success) {
-        setAuthenticatedIdentity(data.user.id, data.token)
-        toast.success("Logged in with Google")
-        router.push("/")
-      } else {
-        toast.error("Google authentication failed")
-      }
-    } catch {
-      toast.error("Google login failed")
+    } catch (error: any) {
+      toast.error(error.message || "Username or password is wrong")
     } finally {
-      setGoogleLoading(false)
+      setLoading(false)
     }
   }
 
@@ -106,15 +80,6 @@ export default function LoginPage() {
               className="w-full border-brutal-thick bg-primary py-4 font-black uppercase text-primary-foreground shadow-brutal-lg transition-all hover:shadow-brutal-hover hover:translate-x-[6px] hover:translate-y-[6px]"
             >
               {loading ? "Logging in..." : "Login"}
-            </button>
-
-            <button
-              type="button"
-              onClick={handleGoogleAuth}
-              disabled={googleLoading}
-              className="w-full border-brutal py-4 font-bold uppercase shadow-brutal transition-all hover:shadow-brutal-hover hover:translate-x-[4px] hover:translate-y-[4px]"
-            >
-              {googleLoading ? "Connecting..." : "Continue with Google"}
             </button>
 
           </form>
