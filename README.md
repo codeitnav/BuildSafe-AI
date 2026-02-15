@@ -126,8 +126,8 @@ Project risk is computed by aggregating individual requirement risks.
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/your-username/buildsafe-ai.git
-cd buildsafe-ai
+git clone https://github.com/your-username/BuildSafe-AI.git
+cd BuildSafe-AI
 ```
 
 ### Backend Setup
@@ -163,17 +163,15 @@ http://localhost:8000
 ```bash
 npm install
 ```
+Create a .env file in the root directory:
+```bash
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+```
 
 ### 2. Run Development Server
 ```bash
 npm run dev
 ```
-
-The app will run at:
-```bash
-http://localhost:3000
-```
-
 
 ## 🎯 Intended Use Cases
 - Software engineering students (SRS analysis & viva preparation)
