@@ -45,17 +45,17 @@ This application provides the user interface for authentication, risk analysis, 
 npm install
 ```
 
-### 2. Run Development Server
-```bash
-npm run dev
-```
-
 ### Environment Variables
 Create a .env.local file in the root directory and configure:
 ```bash
 NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 Adjust the API URL according to your backend deployment.
+
+### 2. Run Development Server
+```bash
+npm run dev
+```
 
 ---
 
