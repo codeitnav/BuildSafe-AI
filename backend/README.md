@@ -163,6 +163,7 @@ Server runs at:
 http://localhost:8000
 ```
 
+---
 ### Architecture Principles
 - Stateless REST API
 - Token-based authentication
@@ -171,3 +172,5 @@ http://localhost:8000
 - Hybrid validation model
 - Explainable AI outputs
 - Scalable middleware-based structure
+
+---
