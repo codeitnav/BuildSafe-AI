@@ -150,7 +150,7 @@ Create a .env file in the root directory:
 PORT=8000
 JWT_SECRET=your_jwt_secret
 MONGO_URI=your_mongodb_connection_string
-GROQ_API_KEY==your_groq_api_key
+GROQ_API_KEY=your_groq_api_key
 ```
 
 ### 3. Start the Server
