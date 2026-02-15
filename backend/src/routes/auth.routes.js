@@ -24,13 +24,6 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 /*
-  @desc    Authenticate or register user via Google OAuth
-  @route   POST /api/auth/google
-  @access  Public
-*/
-router.post("/google", googleAuth);
-
-/*
   @desc    Get currently authenticated user profile
   @route   GET /api/auth/me
   @access  Private
