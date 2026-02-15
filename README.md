@@ -147,26 +147,49 @@ cd buildsafe-ai
 ```
 
 ### Backend Setup
+
+### 1. Install Dependencies
+
 ```bash
-cd backend
 npm install
 ```
+### 2. Create Environment File
 
-Create a .env file:
+Create a .env file in the root directory:
 ```bash
 PORT=8000
+JWT_SECRET=your_jwt_secret
 MONGO_URI=your_mongodb_connection_string
+GROQ_API_KEY==your_groq_api_key
 ```
-Start the backend server:
+
+### 3. Start the Server
 ```bash
 npm start
 ```
-### Frontend Setup
+
+Server runs at:
 ```bash
-cd frontend
+http://localhost:8000
+```
+
+### Frontend Setup
+
+### 1. Install Dependencies
+```bash
 npm install
+```
+
+### 2. Run Development Server
+```bash
 npm run dev
 ```
+
+The app will run at:
+```bash
+http://localhost:3000
+```
+
 
 ## 🎯 Intended Use Cases
 - Software engineering students (SRS analysis & viva preparation)
